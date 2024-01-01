@@ -1,7 +1,7 @@
 import unittest
 from source.day_1 import *
 
-class TestFuel(unittest.TestCase):
+class TestDay1(unittest.TestCase):
 
     def test_positive_mass(self):
         self.assertEqual(fuel(12), 2)
@@ -23,6 +23,13 @@ class TestFuel(unittest.TestCase):
         self.assertEqual(50346, fuel_for_fuel(100756))
         self.assertEqual(966, fuel_for_fuel(1969))
         self.assertEqual(2, fuel_for_fuel(14))
+
+
+def suite():
+    suite = unittest.TestSuite()
+    suite.addTest(TestDay1('test_process_code'))
+    return suite
+
 
 if __name__ == '__main__':
     unittest.main()
