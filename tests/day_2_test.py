@@ -33,7 +33,7 @@ class TestDay2(unittest.TestCase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(TestDay2('test_process_code'))
+    suite.addTest(TestDay2('test_day_2'))
     return suite
 
 
