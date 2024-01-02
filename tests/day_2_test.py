@@ -31,7 +31,6 @@ class TestDay2(unittest.TestCase):
         self.assertEqual(7195, actual)
 
 
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(TestDay2('test_process_code'))
