@@ -49,10 +49,4 @@ def min_distance(data):
     return min(distances)
 
 
-test_data = ["R75,D30,R83,U83,L12,D49,R71,U7,L72",
-             "U62,R66,U55,R34,D71,R55,D58,R83"]
-data = process_data(test_data)
-print(min_distance(data))
-
-
 __all__ = ['parse_file', 'process_data', 'min_distance']
