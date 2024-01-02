@@ -3,8 +3,7 @@ from typing import List
 
 
 def process_data(s):
-    numbers = [int(n) for n in s.split(',')]
-    return numbers
+    return [int(n) for n in s.split(',')]
 
 
 def process_code(code: List[int]):
@@ -24,19 +23,16 @@ def process_code(code: List[int]):
             code[result_index] = operand1 * operand2
         index += 4
 
-__all__ = ['parse_file', 'process_code', 'process_data']
 
-# s = parse_file('../resources/day_2_data')[0]
-#
-# numbers = processData(s)
-#
-# numbers[1] = 12
-# numbers[2] = 2
-#
-#
-# # numbers = processData('1,0,0,0,99')
-# # numbers = processData('1,1,1,4,99,5,6,0,99')
-#
-# process_code(numbers)
-#
-# print(numbers[0])
+def find_codes(code: List[int]):
+    for noun in range(100):
+        for verb in range(100):
+            temp_code = code.copy()
+            temp_code[1] = noun
+            temp_code[2] = verb
+            process_code(temp_code)
+            if temp_code[0] == 19690720:
+                return 100 * noun + verb
+
+
+__all__ = ['parse_file', 'process_code', 'process_data', 'find_codes']

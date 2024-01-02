@@ -24,6 +24,13 @@ class TestDay2(unittest.TestCase):
         process_code(numbers)
         self.assertEqual(3760627, numbers[0])
 
+    def test_part2(self):
+        s = parse_file('../resources/day_2_data')[0]
+        numbers = process_data(s)
+        actual = find_codes(numbers)
+        self.assertEqual(7195, actual)
+
+
 
 def suite():
     suite = unittest.TestSuite()
