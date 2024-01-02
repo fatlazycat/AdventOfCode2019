@@ -1,7 +1,7 @@
 from source.utils import parse_file
-from typing import List
 from enum import Enum
-from shapely import *
+from shapely.geometry import Point, LineString
+from shapely import intersection_all
 
 
 class Direction(Enum):
@@ -40,14 +40,19 @@ def manhattan_distance(p: Point):
     return int(abs(p.x) + abs(p.y))
 
 
-def min_distance(data: List[str]):
+def min_distance(data):
     line_strings = list(map(create_line_string, data))
     lines = list(map(LineString, line_strings))
     intersections = intersection_all(lines)
-    points = list(intersections.geoms)
-    distances = list(map(manhattan_distance, points))
-    min_distance = min(distances)
-    return min_distance
+    list_of_points = list(intersections.geoms)
+    distances = list(map(manhattan_distance, list_of_points))
+    return min(distances)
+
+
+test_data = ["R75,D30,R83,U83,L12,D49,R71,U7,L72",
+             "U62,R66,U55,R34,D71,R55,D58,R83"]
+data = process_data(test_data)
+print(min_distance(data))
 
 
 __all__ = ['parse_file', 'process_data', 'min_distance']
