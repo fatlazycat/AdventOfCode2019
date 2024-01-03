@@ -9,7 +9,10 @@ from source.day_4 import *
 
 class TestDay4(unittest.TestCase):
     def test_part1(self):
-        self.assertEqual(460, valid_passwords(3, 8, 7))
+        self.assertEqual(460, valid_passwords(3, 8, 7, has_adjacent_same))
+
+    def test_part2(self):
+        self.assertEqual(290, valid_passwords(3, 8, 7, has_adjacent_same_but_not_more))
 
 
 def suite():

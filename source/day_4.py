@@ -12,7 +12,15 @@ def has_adjacent_same(arr):
     return False
 
 
-def valid_passwords(lower_v1, init_lower_v2, upper_v1):
+def has_adjacent_same_but_not_more(arr):
+    s = str(arr)
+    return any(s[i] == s[i+1]
+               and (i == 0 or s[i-1] != s[i])
+               and (i == len(s) - 2
+                    or s[i+2] != s[i]) for i in range(len(s) - 1))
+
+
+def valid_passwords(lower_v1, init_lower_v2, upper_v1, func):
     count = 0
 
     for i1 in range(lower_v1, upper_v1+1):
@@ -27,10 +35,10 @@ def valid_passwords(lower_v1, init_lower_v2, upper_v1):
                     for i5 in range(i4, 10):
                         for i6 in range(i5, 10):
                             password = str(i1) + str(i2) + str(i3) + str(i4) + str(i5) + str(i6)
-                            if has_adjacent_same(password):
+                            if func(password):
                                 count += 1
 
     return count
 
 
-__all__ = ['valid_passwords']
+__all__ = ['valid_passwords', 'has_adjacent_same', 'has_adjacent_same_but_not_more']
