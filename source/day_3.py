@@ -5,7 +5,7 @@ from shapely.measurement import length as line_length
 from shapely.ops import split
 from shapely import intersection_all
 from typing import List
-
+from functools import partial
 
 class Direction(Enum):
     UP = 'U'
@@ -23,8 +23,11 @@ def process_data(rows):
     return parsed_data
 
 
-def create_line_string(data):
-    line_string = [(0, 0)]
+def create_line_string(data, include_origin):
+    if include_origin:
+        line_string = [(0, 0)]
+    else:
+        line_string = []
     current_point = (0, 0)
     for direction, distance in data:
         if direction == Direction.UP:
@@ -44,7 +47,8 @@ def manhattan_distance(p: Point):
 
 
 def min_distance(data):
-    line_strings = list(map(create_line_string, data))
+    new_func = partial(create_line_string, include_origin=False)
+    line_strings = list(map(new_func, data))
     lines = list(map(LineString, line_strings))
     intersections = intersection_all(lines)
     list_of_points = list(intersections.geoms)
@@ -53,7 +57,8 @@ def min_distance(data):
 
 
 def shortest_path(data: List[str]):
-    line_strings = list(map(create_line_string, data))
+    new_func = partial(create_line_string, include_origin=True)
+    line_strings = list(map(new_func, data))
     lines = list(map(LineString, line_strings))
     intersections = intersection_all(lines)
     list_of_intersections = list(intersections.geoms)
@@ -65,15 +70,7 @@ def shortest_path(data: List[str]):
             line_parts = split(line, intersection)
             line_distances += line_length(line_parts.geoms[0])
         distances.append(line_distances)
-    return min(distances)
+    return int(min(distances))
 
 
-test_data = ["R75,D30,R83,U83,L12,D49,R71,U7,L72",
-             "U62,R66,U55,R34,D71,R55,D58,R83"]
-# test_data = ["R8,U5,L5,D3",
-#              "U7,R6,D4,L4"]
-data = process_data(test_data)
-print(shortest_path(data))
-
-
-__all__ = ['parse_file', 'process_data', 'min_distance']
+__all__ = ['parse_file', 'process_data', 'min_distance', 'shortest_path']

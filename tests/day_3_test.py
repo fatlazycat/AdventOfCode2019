@@ -14,6 +14,11 @@ class TestDay3(unittest.TestCase):
         data = process_data(raw_data)
         self.assertEqual(1983, min_distance(data))
 
+    def test_part2(self):
+        raw_data = parse_file("../resources/day_3_data")
+        data = process_data(raw_data)
+        self.assertEqual(107754, shortest_path(data))
+
 
 def suite():
     suite = unittest.TestSuite()
