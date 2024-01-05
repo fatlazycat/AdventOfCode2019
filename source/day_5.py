@@ -20,8 +20,8 @@ def write_process_mode(code: List[int], parameter_index: int, value: int):
 
 
 def process_code(code: List[int], starting_input):
-    index = 0
-    output = 0
+    index: int = 0
+    output: int = 0
 
     while code[index] != 99:
         s = str(code[index]).rjust(5, '0')
