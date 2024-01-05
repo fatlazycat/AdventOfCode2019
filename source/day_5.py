@@ -40,11 +40,12 @@ def opcode8_conditional(v1: int, v2: int):
     return 1 if v1 == v2 else 0
 
 
-def process_pointer(val, ignore):
-    if val is not None:
-        return val
+def process_index(index, result):
+    if result is not None:
+        index = result
     else:
-        return ignore
+        index += 3
+    return index
 
 
 def write_process_mode(code: List[int], parameter_index: int, value: int):
@@ -81,16 +82,10 @@ def process_code(code: List[int], starting_input):
             index += 2
         elif opcode == 5:
             result = jump_if(code, code[index + 1], code[index + 2], first_mode, second_mode, opcode5_conditional)
-            if result is not None:
-                index = result
-            else:
-                index += 3
+            index = process_index(index, result)
         elif opcode == 6:
             result = jump_if(code, code[index + 1], code[index + 2], first_mode, second_mode, opcode6_conditional)
-            if result is not None:
-                index = result
-            else:
-                index += 3
+            index = process_index(index, result)
         elif opcode == 7:
             result = opcode7_conditional(read_process_mode(code, code[index + 1], first_mode),
                                          read_process_mode(code, code[index + 2], second_mode))
