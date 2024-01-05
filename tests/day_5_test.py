@@ -8,6 +8,11 @@ class TestDay5(unittest.TestCase):
         numbers = process_data(s)
         self.assertEqual(12440243, process_code(numbers, 1))
 
+    def test_part2(self):
+        s = parse_file('../resources/day_5_data')[0]
+        numbers = process_data(s)
+        self.assertEqual(15486302, process_code(numbers, 5))
+
 
 def suite():
     suite = unittest.TestSuite()
