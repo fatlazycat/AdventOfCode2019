@@ -8,6 +8,11 @@ class TestDay6(unittest.TestCase):
         orbits = parse_orbits(s)
         self.assertEqual(227612, get_orbit_counts(orbits))
 
+    def test_part2(self):
+        s = parse_file('../resources/day_6_data')
+        orbits = parse_orbits(s)
+        self.assertEqual(454, get_orbit_traversal(orbits))
+
 
 def suite():
     suite = unittest.TestSuite()
