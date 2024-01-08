@@ -52,9 +52,10 @@ def write_process_mode(code: List[int], parameter_index: int, value: int):
     code[code[parameter_index]] = value
 
 
-def process_code(code: List[int], starting_input):
+def process_code(code: List[int], starting_input: List[int]):
     index: int = 0
     output: int = 0
+    input_index: int = 0
 
     while code[index] != 99:
         s = str(code[index]).rjust(5, '0')
@@ -74,11 +75,13 @@ def process_code(code: List[int], starting_input):
             code[code[index + 3]] = operand1 * operand2
             index += 4
         elif opcode == 3:
-            code[code[index + 1]] = starting_input
+            assert input_index < len(starting_input)
+            code[code[index + 1]] = starting_input[input_index]
             index += 2
+            input_index += 1
         elif opcode == 4:
             output = read_process_mode(code, code[index + 1], first_mode)
-            print(output)
+            # print(output)
             index += 2
         elif opcode == 5:
             result = jump_if(code, code[index + 1], code[index + 2], first_mode, second_mode, opcode5_conditional)
