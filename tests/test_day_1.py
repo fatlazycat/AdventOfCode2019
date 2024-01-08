@@ -13,11 +13,9 @@ class TestDay1(unittest.TestCase):
         input = array_of_int("../resources/day_1_data")
         self.assertEqual(3382284, calculate_total_fuel(input))
 
-
     def test_fuel_for_fuel_summed(self):
         input = array_of_int("../resources/day_1_data")
         self.assertEqual(5070541, calculate_total_fuel_with_extra_fuel(input))
-
 
     def test_fuel_for_fuel(self):
         self.assertEqual(50346, fuel_for_fuel(100756))

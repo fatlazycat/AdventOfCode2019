@@ -76,12 +76,14 @@ def process_code(code: List[int], starting_input: List[int]):
             index += 4
         elif opcode == 3:
             assert input_index < len(starting_input)
+            assert len(starting_input) > 0
             code[code[index + 1]] = starting_input[input_index]
             index += 2
             input_index += 1
         elif opcode == 4:
             output = read_process_mode(code, code[index + 1], first_mode)
-            # print(output)
+            print(output)
+            starting_input.append(output)
             index += 2
         elif opcode == 5:
             result = jump_if(code, code[index + 1], code[index + 2], first_mode, second_mode, opcode5_conditional)
