@@ -21,6 +21,17 @@ def process_amp(code, output, phase):
     return output
 
 
+def process_loops(code: List[int]):
+    current_max = 0
+    nums = [9,8,7,6,5]
+    perms = permutations(nums)
+    for perm in perms:
+        output = process_loop(code, perm)
+        current_max = max(current_max, output)
+
+    return current_max
+
+
 def process_loop(code: List[int], phase: [int]):
     amps = [
         State(code=code.copy(), index=0, input=[phase[0], 0], output=[]),
@@ -38,4 +49,4 @@ def process_loop(code: List[int], phase: [int]):
     return amps[4].output[-1]
 
 
-__all__ = ['process_amp', 'process_amps', 'process_loop']
+__all__ = ['process_amp', 'process_amps', 'process_loop', 'process_loops']
