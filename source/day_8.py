@@ -39,4 +39,5 @@ def part2(data: List[int]) -> [int]:
 #     print(' ' if pixel == 0 else '#', end='')
 # GCPHL
 
+
 __all__ = ['part1', 'part2']
