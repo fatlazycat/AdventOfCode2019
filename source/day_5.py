@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from source.utils import parse_file
 from typing import List
 
@@ -53,9 +54,31 @@ def write_process_mode(code: List[int], parameter_index: int, value: int):
 
 
 def process_code(code: List[int], starting_input: List[int]):
-    index: int = 0
-    output: int = 0
+    state: State = State(code=code, index=0, input=starting_input, output=[])
+
+    while not state.terminated:
+        process_code_state(state)
+        state.input = state.output
+
+    return state.output[-1]
+
+
+@dataclass
+class State:
+    code: [int]
+    index: int
+    input: [int]
+    output: [int]
+    halted: bool = False
+    terminated: bool = False
+
+def process_code_state(state: State):
+    index: int = state.index
+    code = state.code
+    input: List[int] = state.input
+    output: List[int] = []
     input_index: int = 0
+    state.halted = False
 
     while code[index] != 99:
         s = str(code[index]).rjust(5, '0')
@@ -75,36 +98,40 @@ def process_code(code: List[int], starting_input: List[int]):
             code[code[index + 3]] = operand1 * operand2
             index += 4
         elif opcode == 3:
-            assert input_index < len(starting_input)
-            assert len(starting_input) > 0
-            code[code[index + 1]] = starting_input[input_index]
+            if input_index >= len(input):
+                state.halted = True
+                break
+
+            code[code[index + 1]] = input[input_index]
             index += 2
             input_index += 1
         elif opcode == 4:
-            output = read_process_mode(code, code[index + 1], first_mode)
-            print(output)
-            starting_input.append(output)
+            output.append(read_process_mode(code, code[index + 1], first_mode))
             index += 2
         elif opcode == 5:
-            result = jump_if(code, code[index + 1], code[index + 2], first_mode, second_mode, opcode5_conditional)
-            index = process_index(index, result)
+            new_loc = jump_if(code, code[index + 1], code[index + 2], first_mode, second_mode, opcode5_conditional)
+            index = process_index(index, new_loc)
         elif opcode == 6:
-            result = jump_if(code, code[index + 1], code[index + 2], first_mode, second_mode, opcode6_conditional)
-            index = process_index(index, result)
+            new_loc = jump_if(code, code[index + 1], code[index + 2], first_mode, second_mode, opcode6_conditional)
+            index = process_index(index, new_loc)
         elif opcode == 7:
-            result = opcode7_conditional(read_process_mode(code, code[index + 1], first_mode),
+            update_val = opcode7_conditional(read_process_mode(code, code[index + 1], first_mode),
                                          read_process_mode(code, code[index + 2], second_mode))
-            code[code[index + 3]] = result
+            code[code[index + 3]] = update_val
             index += 4
         elif opcode == 8:
-            result = opcode8_conditional(read_process_mode(code, code[index + 1], first_mode),
+            update_val = opcode8_conditional(read_process_mode(code, code[index + 1], first_mode),
                                          read_process_mode(code, code[index + 2], second_mode))
-            code[code[index + 3]] = result
+            code[code[index + 3]] = update_val
             index += 4
         else:
             raise Exception("Unknown opcode " + str(opcode))
 
-    return output
+    state.code = code
+    state.index = index
+    state.input = input
+    state.output = output
+    state.terminated = code[index] == 99
 
 
-__all__ = ['parse_file', 'process_code', 'process_data']
+__all__ = ['parse_file', 'process_code', 'process_data', 'process_code_state', 'State']

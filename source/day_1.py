@@ -37,9 +37,9 @@ def fuel_for_fuel(starting_fuel):
     return result
 
 
-input = array_of_int("../resources/day_1_data")
-
-print(calculate_total_fuel(input))
-print(calculate_total_fuel_with_extra_fuel(input))
+# input = array_of_int("../resources/day_1_data")
+#
+# print(calculate_total_fuel(input))
+# print(calculate_total_fuel_with_extra_fuel(input))
 
 __all__ = ['parse_file', 'fuel', 'calculate_total_fuel', 'fuel_for_fuel', 'calculate_total_fuel_with_extra_fuel', 'array_of_int']
