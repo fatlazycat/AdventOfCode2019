@@ -71,6 +71,8 @@ class State:
     output: [int]
     halted: bool = False
     terminated: bool = False
+    index_offset: int = 0
+
 
 def process_code_state(state: State):
     index: int = state.index
